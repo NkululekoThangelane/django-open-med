@@ -1,33 +1,30 @@
 from django.utils.translation import ugettext_lazy as _
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, AbstractUser
 from django.db import models
 
 from encrypted_fields import EncryptedCharField
+from rest_framework.authtoken.models import Token
+from autoslug import AutoSlugField
 
 GENDER_CHOICES =(
     ('M', 'Male'),
     ('F', 'Female'),
 )
 # Create your models here.
-class Person(models.Model):
-    user = models.OneToOneField(User)
+class AppUser(AbstractUser):
+    slug = models.AutoSlugField(populate_from='user', unique_with='user')
     org = models.OneToOneField('organization.Organization')
-    created = models.DateTimeField(auto_now=True)
+    token = models.ForeignKey(Token)
     class Meta:
         abstract = True
 
-class PersonProfile(models.Model):
-    user = models.OneToOneField(User)
-    org = models.OneToOneField('organization.Organization')
-    created = models.DateTimeField(auto_now=True)
-
-class Patient(Person):
+class Patient(AppUser):
     pass
 
 class ClientManager(models.Manager):
     pass
 
-class Client(Person):
+class Client(AppUser):
    guardian = models.ForeignKey('Guardian', null=True, blank=True)
    guardian_relation = models.CharField(max_length=50, null=True,blank=True)
    gender = models.CharField(max_length=1, choices=GENDER_CHOICES,default='M')
@@ -41,7 +38,7 @@ class Client(Person):
    objects = ClientManager()
 
    def __unicode__(self):
-       return '%s' % self.user.username
+       return '%s' % self.username
 
    class Meta:
        verbose_name_plural = "Clients"
@@ -49,7 +46,7 @@ class Client(Person):
 class GuardianManager(models.Manager):
     pass
 
-class Guardian(Person):
+class Guardian(AppUser):
     activated = _('ALREADY_ACTIVATED')
     gender = models.CharField(max_length=1, choices=GENDER_CHOICES, default='M')
     dob = models.DateField()
@@ -60,7 +57,7 @@ class Guardian(Person):
     object = GuardianManager()
 
     def __unicode__(self):
-        return '%s' % self.user.username
+        return '%s' % self.username
 
     class Meta:
         verbose_name_plural = "Guardians"
@@ -68,22 +65,24 @@ class Guardian(Person):
 class EmployeeManager(models.Manager):
     pass
 
-class Employee(Person):
+class Employee(AppUser):
     manager = models.BooleanField()
     #schedule = models.ForeignKey('schedule.Calendar')
     objects = EmployeeManager()
 
     def __unicode__(self):
-        return '%s' % self.user.username
+        return '%s' % self.username
 
     class Meta:
         verbose_name_plural = "Employees"
 
-class Physician(Person):
+class Physician(AppUser):
     pass
-class Therapist(Person):
+class Therapist(AppUser):
     pass
 class Address(models.Model):
+    id = models.AutoField(primary_key=True)
+    slug = AutoSlugField(populate_from='id')
     street = models.CharField(max_length=255)
     city = models.CharField(max_length=255)
     state = models.CharField(max_length=255)

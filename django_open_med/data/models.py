@@ -1,8 +1,10 @@
 from django.db import models
 from django.contrib.auth.models import User
+from autoslug import AutoSlugField
 # Create your models here.
 class Data(models.Model):
     id = models.AutoField(primary_key=True)
+    slug = AutoSlugField(populate_from='id')
     created = models.DateTimeField(auto_now=True)
     modified = models.DateTimeField(auto_add_now=True)
     created_by = models.ForeignKey(User)
@@ -12,6 +14,7 @@ class Data(models.Model):
         abstract = True
 class EmployerData(Data):
     name = models.CharField(max_length=250)
+    slug = AutoSlugField(populate_from='name')
     address = models.ForeignField('patients_clients_staff.Address')
 
     def __unicode__(self):
@@ -24,6 +27,8 @@ class List(Data):
     pass
 
 class History(Data):
+    id = models.AutoField(primary_key=True)
+    slug = AutoSlugField(populate_from='id')
     patient = models.ForeignKey('patients_clients_staff.Patient')
     coffee = models.TextField()
     tobacco = models.TextField()
