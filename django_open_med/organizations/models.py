@@ -24,10 +24,7 @@ class Organization(TimeStampedModel):
             help_text=_("The name in all lowercase, suitable for URL identification"))
     is_active = models.BooleanField(default=True)
     description = models.TextField(null=True)
-    street = models.CharField(max_length=200, null=True)
-    city = models.CharField(max_length=200, null=True)
-    state = models.CharField(max_length=25, null=True)
-    zip_code = models.IntegerField(null=True)
+    address = models.ForeignKey('patients_clients_staff.Address')
 
     objects = OrgManager()
     active = ActiveOrgManager()

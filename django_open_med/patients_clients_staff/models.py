@@ -1,76 +1,90 @@
+from django.utils.translation import ugettext_lazy as _
+from django.contrib.auth.models import User
 from django.db import models
 
+from encrypted_fields import EncryptedCharField
+
+GENDER_CHOICES =(
+    ('M', 'Male'),
+    ('F', 'Female'),
+)
 # Create your models here.
 class Person(models.Model):
     user = models.OneToOneField(User)
     org = models.OneToOneField('organization.Organization')
+    created = models.DateTimeField(auto_now=True)
+    class Meta:
+        abstract = True
+
 class PersonProfile(models.Model):
     user = models.OneToOneField(User)
-    org =  models.OneToOneField('organization.Organization')
+    org = models.OneToOneField('organization.Organization')
+    created = models.DateTimeField(auto_now=True)
+
 class Patient(Person):
     pass
 
+class ClientManager(models.Manager):
+    pass
+
 class Client(Person):
+   guardian = models.ForeignKey('Guardian', null=True, blank=True)
+   guardian_relation = models.CharField(max_length=50, null=True,blank=True)
+   gender = models.CharField(max_length=1, choices=GENDER_CHOICES,default='M')
+   ssn = EncryptedCharField(null=True)
+   activated = _('ALREADY_ACTIVATED')
+   dob = models.DateField()
+   phone = models.CharField(max_length=15, null=True, blank=True)
+   address = models.ForeignKey('Address')
+   insurance = models.ForeignKey('insurance.InsuranceData',null=True,blank=True)
+   employer = models.ForeignKey('data.EmployerData', null=True, blank=True)
+   objects = ClientManager()
+
+   def __unicode__(self):
+       return '%s' % self.user.username
+
+   class Meta:
+       verbose_name_plural = "Clients"
+
+class GuardianManager(models.Manager):
     pass
 
 class Guardian(Person):
+    activated = _('ALREADY_ACTIVATED')
+    gender = models.CharField(max_length=1, choices=GENDER_CHOICES, default='M')
+    dob = models.DateField()
+    phone = models.CharField(max_length=15)
+    address = models.ForeignKey('Address')
+    insurance = models.ForeignKey('insurance.InsuranceData',null=True, blank=True)
+    employer = models.ForeignKey('data.EmployerData', null=True, blank=True)
+    object = GuardianManager()
+
+    def __unicode__(self):
+        return '%s' % self.user.username
+
+    class Meta:
+        verbose_name_plural = "Guardians"
+
+class EmployeeManager(models.Manager):
     pass
+
 class Employee(Person):
-    pass
+    manager = models.BooleanField()
+    #schedule = models.ForeignKey('schedule.Calendar')
+    objects = EmployeeManager()
+
+    def __unicode__(self):
+        return '%s' % self.user.username
+
+    class Meta:
+        verbose_name_plural = "Employees"
+
 class Physician(Person):
     pass
 class Therapist(Person):
     pass
-class EmployerData(models.Model):
-    id = models.AutoField(primary_key=True)
-    name = models.CharField()
-    street = models.CharField()
-    postal_code = models.CharField()
-    city = models.CharField()
-    state = models.CharField()
-    country = models.CharField()
-    assoc_id = models.ForeignKey()
-
-class HistoryData(models.Model):
-    id = models.AutoField(primary_key=True)
-    timestamp = models.DateTimeField(editable=False,auto_now=True)
-    assoc_id =
-    coffee
-    tobacco
-    alcohol
-    sleep_patterns
-    exercist_patterns
-    seatbelt_use
-    counseling
-    harzardous_activities
-    last_breast_exam
-    last_mammogram
-    last_gynocological_exam
-    last_rectal_exam
-    last_prostate_exam
-    last_sigmoidoscopy_colonoscopy
-    history_mother
-    history_father
-    history_siblings
-    history_offspring
-    history_spouse
-    relatives_cancer
-    relatives_tuberculosis
-    relatives_diabetes
-    relatives_high_blood_pressure
-    relatives_heart_problems
-    relatives_stroke
-    relatives_epilepsy
-    relatives_mental_illness
-    relatives_suicide
-    catarct_surgery
-    tonsillectomy
-    cholecystestomy
-    heart_surgery
-    hysterectomy
-    hernia_repair
-    hip_replacement
-    knee_replacement
-    appendectomy=
-
-class Immunization(models.Model):
+class Address(models.Model):
+    street = models.CharField(max_length=255)
+    city = models.CharField(max_length=255)
+    state = models.CharField(max_length=255)
+    postal_code = models.IntegerField()

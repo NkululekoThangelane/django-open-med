@@ -244,7 +244,7 @@ LOCAL_APPS = (
     #'accounting_billing',
     #'facility_management',
     #'icd_codes',
-    #'insurance',
+    'insurance',
     #'lab',
     'logger',
     #'medical',
