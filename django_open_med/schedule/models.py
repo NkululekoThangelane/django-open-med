@@ -258,7 +258,7 @@ class Event(models.Model):
     end = models.DateTimeField(_("end"),help_text=_("The end time must be later than the start time."))
     title = models.CharField(_("title"), max_length = 255)
     description = models.TextField(_("description"), null = True, blank = True)
-    creator = models.ForeignKey(User, null = True, verbose_name=_("creator"))
+    creator = models.ForeignKey(settings.AUTH_USER_MODEL, null = True, verbose_name=_("creator"))
     created_on = models.DateTimeField(_("created on"), default = datetime.datetime.now)
     end_recurring_period = models.DateTimeField(_("end recurring period"), null = True, blank = True, help_text=_("This date is ignored for one time only events."))
     calendar = models.ForeignKey(Calendar, blank=True)
@@ -415,7 +415,7 @@ class EventRelationManager(models.Manager):
     #     returns a queryset full of instances of model, if it has an EventRelation
     #     with event, and distinction
     #     >>> event = Event.objects.get(title='Test1')
-    #     >>> EventRelation.objects.get_objects_for_event(event, User, 'owner')
+    #     >>> EventRelation.objects.get_objects_for_event(event, settings.AUTH_USER_MODEL, 'owner')
     #     [<User: alice>]
     #     >>> EventRelation.objects.get_objects_for_event(event, User)
     #     [<User: alice>, <User: bob>]

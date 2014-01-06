@@ -72,7 +72,7 @@ class Organization(TimeStampedModel):
         if users_count == 0:
             is_admin = True
 
-        org_user, created = OrganizationUser.objects.get_or_create(
+        org_user, created = settings.AUTH_USER_MODEL.objects.get_or_create(
                 organization=self, user=user, defaults={'is_admin': is_admin})
 
         if users_count == 0:
@@ -91,7 +91,7 @@ class OrganizationOwner(TimeStampedModel):
     """Each organization must have one and only one organization owner."""
 
     organization = models.OneToOneField(Organization, related_name="owner")
-    organization_user = models.OneToOneField(User,
+    organization_user = models.OneToOneField(settings.AUTH_USER_MODEL,
             related_name="owned_organization")
 
     class Meta:

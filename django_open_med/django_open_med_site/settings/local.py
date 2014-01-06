@@ -17,7 +17,7 @@ SITE_NAME = basename(DJANGO_ROOT)
 # name in our dotted import paths:
 path.append(DJANGO_ROOT)
 ########## END PATH CONFIGURATION
-
+AUTH_USER_MODEL='patients_clients_staff.AppUser'
 
 ########## DEBUG CONFIGURATION
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#debug

@@ -28,10 +28,11 @@ class ClientCreateView(LoginRequiredMixin, CreateView):
     model = Client
     form_class = ClientCreateForm
     template_name = 'client_create.html'
+
 class ClientUpdateView(LoginRequiredMixin, UpdateView):
     model = Client
-    form_class = ClientUpdateForm
-    template_name = 'client_update.html'
+    form_class = ClientCreateForm
+    template_name = 'client_create.html'
 
 class ClientDeleteView(LoginRequiredMixin, DeleteView):
     model = Client

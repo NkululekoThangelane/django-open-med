@@ -47,6 +47,7 @@ class AbstractForm(models.Model):
 
     created_by = models.ForeignKey('organizations.Organization', null=True,
 	help_text=_("The company in which owns the form"))
+    created_by_user = models.ForeignKey(settings.AUTH_USER_MODEL)
     title = models.CharField(_("Title"), max_length=50)
     slug = models.SlugField(_("Slug"), editable=settings.EDITABLE_SLUGS,
         max_length=100, unique=True)
@@ -189,7 +190,7 @@ class AbstractFormEntry(models.Model):
     """
 
     entry_time = models.DateTimeField(_("Date/time"))
-    entry_user = models.ForeignKey(User, null=True)
+    entry_user = models.ForeignKey(settings.AUTH_USER_MODEL), null=True)
 
     class Meta:
         verbose_name = _("Form entry")

@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.conf import settings
 from autoslug import AutoSlugField
 # Create your models here.
 class Data(models.Model):
@@ -7,7 +8,7 @@ class Data(models.Model):
     slug = AutoSlugField(populate_from='id')
     created = models.DateTimeField(auto_now=True)
     modified = models.DateTimeField(auto_add_now=True)
-    created_by = models.ForeignKey(User)
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL)
     org = models.ForeignKey('organization.Organization')
 
     class Meta:
