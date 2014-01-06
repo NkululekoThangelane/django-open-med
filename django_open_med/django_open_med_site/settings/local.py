@@ -124,8 +124,34 @@ FIXTURE_DIRS = (
     normpath(join(SITE_ROOT, 'fixtures')),
 )
 ########## END FIXTURE CONFIGURATION
+######### ALL AUTH CONFIGURATION ###########
+AUTHENTICATION_BACKENDS =(
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+)
+ACCOUNT_EMAIL_CONFIRMATION_ANONYMOUS_REDIRECT_URL(=settings.LOGIN_URL)
+ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL(=NONE)
+ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS(=3)
+ACCOUNT_EMAIL_REQUIRED(=True)
+ACCOUNT_EMAIL_VERIFICATION(="mandatory")
+ACCOUNT_EMAIL_SUBJECT_PREFIX(="Please confirm your email for [Site]")
+ACCOUNT_DEFAULT_HTTP_PROTOCOL=(="https")
+ACCOUNT_SIGNUP_PASSWORD_VERIFICATION(=True)
+ACCOUNT_UNIQUE_EMAIL(=True)
+ACCOUNT_USERNAME_MIN_LENGTH(=6)
+ACCOUNT_PASSWORD_MIN_LENGTH(=6)
+SOCIALACCOUNT_QUERY_EMAIL(=ACCOUNT_EMAIL_REQUIRED)
+SOCIALACCOUNT_AUTO_SIGNUP(=True)
+SOCIALACCOUNT_EMAIL_REQUIRED(=ACCOUNT_EMAIL_REQUIRED)
+SOCIALACCOUNT_EMAIL_VERIFICATION(=ACCOUNT_EMAIL_VERIFICATION)
+###########END ALL AUTH CONFIG########################
+########### SES AND SNS CONFIG #####################
 
+#EMAIL_BACKEND='django_ses.SESBACKEND'
+#AWS_ACCESS_KEY_ID =
+#AWS_SECRET_ACCESS_KEY =
 
+########## END SES AND SNS ###########################
 ########## TEMPLATE CONFIGURATION
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#template-context-processors
 TEMPLATE_CONTEXT_PROCESSORS = (
@@ -137,6 +163,8 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.static',
     'django.core.context_processors.tz',
     'django.contrib.messages.context_processors.messages',
+    'allauth.account.context_processors.account',
+    'allauth.socialaccount.context_processors.socialaccount',
 )
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#template-loaders
@@ -201,29 +229,35 @@ THIRD_PARTY_APPS = (
     'schedule',
     'floppyforms',
     'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.facebook',
+    'allauth.socialaccount.providers.google',
+    'allauth.socialaccount.providers.twitter',
     'rest_framework',
-    
-    
+
+
 )
 
 # Apps specific for this project go here.
 LOCAL_APPS = (
-    'accounting_billing',
-    'facility_management',
-    'icd_codes',
-    'insurance',
-    'lab',
+    #'accounting_billing',
+    #'facility_management',
+    #'icd_codes',
+    #'insurance',
+    #'lab',
     'logger',
-    'medical',
-    'custom_coding',
-    'notes',
-    'medication_prescriptions',
-    'patients_clients',
-    'practice_management',
+    #'medical',
+    #'custom_coding',
+    #'notes',
+    #'medication_prescriptions',
+    'patients_clients_staff',
+    #'practice_management',
     'reminders',
+    'dashboard',
     'reporting',
-    'staff',
-        
+    'portal',
+
 )
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
@@ -299,5 +333,5 @@ LOGGING = {
 
 ########## WSGI CONFIGURATION
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#wsgi-application
-WSGI_APPLICATION = 'patient_portal.wsgi.application'
+WSGI_APPLICATION = 'django_open_med.wsgi.application'
 ########## END WSGI CONFIGURATION

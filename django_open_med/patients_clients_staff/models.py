@@ -1,13 +1,26 @@
 from django.db import models
 
-
 # Create your models here.
-class Patient():
+class Person(models.Model):
+    user = models.OneToOneField(User)
+    org = models.OneToOneField('organization.Organization')
+class PersonProfile(models.Model):
+    user = models.OneToOneField(User)
+    org =  models.OneToOneField('organization.Organization')
+class Patient(Person):
+    pass
 
-class Client():
+class Client(Person):
+    pass
 
-class Guardian():
-
+class Guardian(Person):
+    pass
+class Employee(Person):
+    pass
+class Physician(Person):
+    pass
+class Therapist(Person):
+    pass
 class EmployerData(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField()
@@ -16,7 +29,8 @@ class EmployerData(models.Model):
     city = models.CharField()
     state = models.CharField()
     country = models.CharField()
-    assoc_id = models.ForeignKey()        
+    assoc_id = models.ForeignKey()
+
 class HistoryData(models.Model):
     id = models.AutoField(primary_key=True)
     timestamp = models.DateTimeField(editable=False,auto_now=True)
