@@ -17,7 +17,7 @@ SITE_NAME = basename(DJANGO_ROOT)
 # name in our dotted import paths:
 path.append(DJANGO_ROOT)
 ########## END PATH CONFIGURATION
-AUTH_USER_MODEL='patients_clients_staff.AppUser'
+AUTH_USER_MODEL='users.CustomUser'
 
 ########## DEBUG CONFIGURATION
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#debug
@@ -44,7 +44,9 @@ ADMINS = (
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#managers
 MANAGERS = ADMINS
 ########## END MANAGER CONFIGURATION
-
+######### ENCRYPTED FIELDS SETTINGS #######
+ENCRYPTED_FIELDS_KEYDIR = '/opt/efk/keys'
+######## END ENCRYPTED FIELDS SETTINGS
 
 ########## DATABASE CONFIGURATION
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#databases
@@ -258,12 +260,13 @@ LOCAL_APPS = (
     #'custom_coding',
     #'notes',
     #'medication_prescriptions',
-    'patients_clients_staff',
+    'users',
     #'practice_management',
     'reminders',
     'dashboard',
     'reporting',
     'portal',
+    'data',
 
 )
 

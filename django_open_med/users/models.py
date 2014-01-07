@@ -1,9 +1,8 @@
 from django.utils.translation import ugettext_lazy as _
-from django.contrib.auth.models import User, AbstractUser
+from django.contrib.auth.models import AbstractUser
 from django.db import models
-
+from django.conf import settings
 from encrypted_fields import EncryptedCharField
-from rest_framework.authtoken.models import Token
 from autoslug import AutoSlugField
 
 GENDER_CHOICES =(
@@ -11,29 +10,27 @@ GENDER_CHOICES =(
     ('F', 'Female'),
 )
 # Create your models here.
-class AppUser(AbstractUser):
-    slug = models.AutoSlugField(populate_from='user', unique_with='user')
-    org = models.OneToOneField('organization.Organization')
-    token = models.ForeignKey(Token)
+class CustomUser(AbstractUser):
+    slug = AutoSlugField(populate_from='user', unique_with='user')
+    org = models.OneToOneField('organizations.Organization')
     class Meta:
-        abstract = True
-
-class Patient(AppUser):
-    pass
+        pass
+class Patient(CustomUser):
+    doctor = models.ForeignKey('Physician')
 
 class ClientManager(models.Manager):
     pass
 
-class Client(AppUser):
+class Client(CustomUser):
    guardian = models.ForeignKey('Guardian', null=True, blank=True)
    guardian_relation = models.CharField(max_length=50, null=True,blank=True)
    gender = models.CharField(max_length=1, choices=GENDER_CHOICES,default='M')
-   ssn = EncryptedCharField(null=True)
+   ssn = EncryptedCharField(max_length=25,null=True)
    activated = _('ALREADY_ACTIVATED')
    dob = models.DateField()
    phone = models.CharField(max_length=15, null=True, blank=True)
    address = models.ForeignKey('Address')
-   insurance = models.ForeignKey('insurance.InsuranceData',null=True,blank=True)
+   insurance = models.ForeignKey('insurance.InsuranceData',null=True,blank=True, related_name='client_insurance')
    employer = models.ForeignKey('data.EmployerData', null=True, blank=True)
    objects = ClientManager()
 
@@ -46,7 +43,7 @@ class Client(AppUser):
 class GuardianManager(models.Manager):
     pass
 
-class Guardian(AppUser):
+class Guardian(CustomUser):
     activated = _('ALREADY_ACTIVATED')
     gender = models.CharField(max_length=1, choices=GENDER_CHOICES, default='M')
     dob = models.DateField()
@@ -65,8 +62,8 @@ class Guardian(AppUser):
 class EmployeeManager(models.Manager):
     pass
 
-class Employee(AppUser):
-    manager = models.BooleanField()
+class Employee(CustomUser):
+    manager = models.BooleanField(default=False)
     #schedule = models.ForeignKey('schedule.Calendar')
     objects = EmployeeManager()
 
@@ -76,10 +73,10 @@ class Employee(AppUser):
     class Meta:
         verbose_name_plural = "Employees"
 
-class Physician(AppUser):
-    pass
-class Therapist(AppUser):
-    pass
+class Physician(CustomUser):
+    type = models.CharField(max_length=50)
+class Therapist(CustomUser):
+    type = models.CharField(max_length=50)
 class Address(models.Model):
     id = models.AutoField(primary_key=True)
     slug = AutoSlugField(populate_from='id')

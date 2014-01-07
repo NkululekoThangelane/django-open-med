@@ -24,7 +24,7 @@ class Organization(TimeStampedModel):
             help_text=_("The name in all lowercase, suitable for URL identification"))
     is_active = models.BooleanField(default=True)
     description = models.TextField(null=True)
-    address = models.ForeignKey('patients_clients_staff.Address')
+    address = models.ForeignKey('users.Address')
 
     objects = OrgManager()
     active = ActiveOrgManager()

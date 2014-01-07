@@ -7,16 +7,15 @@ class Data(models.Model):
     id = models.AutoField(primary_key=True)
     slug = AutoSlugField(populate_from='id')
     created = models.DateTimeField(auto_now=True)
-    modified = models.DateTimeField(auto_add_now=True)
+    modified = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL)
-    org = models.ForeignKey('organization.Organization')
+    org = models.ForeignKey('organizations.Organization')
 
     class Meta:
         abstract = True
 class EmployerData(Data):
     name = models.CharField(max_length=250)
-    slug = AutoSlugField(populate_from='name')
-    address = models.ForeignField('patients_clients_staff.Address')
+    address = models.ForeignKey('users.Address')
 
     def __unicode__(self):
         return '%s' % self.name
@@ -28,9 +27,7 @@ class List(Data):
     pass
 
 class History(Data):
-    id = models.AutoField(primary_key=True)
-    slug = AutoSlugField(populate_from='id')
-    patient = models.ForeignKey('patients_clients_staff.Patient')
+    patient = models.ForeignKey('users.Patient', related_name='patient_history')
     coffee = models.TextField()
     tobacco = models.TextField()
     alcohol = models.TextField()

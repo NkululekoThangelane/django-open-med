@@ -12,6 +12,7 @@ from dateutil import rrule
 from schedule.utils import EventListManager
 from django.template.defaultfilters import date
 from dateutil import rrule
+from django.conf import settings
 from schedule.utils import OccurrenceReplacer
 
 class CalendarManager(models.Manager):
@@ -263,7 +264,7 @@ class Event(models.Model):
     end_recurring_period = models.DateTimeField(_("end recurring period"), null = True, blank = True, help_text=_("This date is ignored for one time only events."))
     calendar = models.ForeignKey(Calendar, blank=True)
     org = models.ForeignKey('organizations.Organization', null=True)
-    created_for = models.ForeignKey('client.Client', null=True)
+    created_for = models.ForeignKey('users.Client', null=True, related_name='created_for_client')
     objects = EventManager()
 
     class Meta:
