@@ -16,6 +16,18 @@ class InsuranceData(InsuranceBase):
     subscriber_data = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='subscriber_data')
     copay = models.DecimalField(max_digits=10, decimal_places=2)
 
+    def __unicode__(self):
+        return '%s' % self.policy_number
+
+    class Meta:
+        verbose_name_plural = "Patient Client Insurance Data"
+
 class InsuranceCompany(InsuranceBase):
     name = models.CharField(max_length=255)
     address = models.ForeignKey('users.Address')
+
+    def __unicode__(self):
+        return '%s' % self.name
+
+    class Meta:
+        verbose_name_plural = "Insurance Companies"

@@ -107,8 +107,8 @@ STATICFILES_DIRS = (
 
 # See: https://docs.djangoproject.com/en/dev/ref/contrib/staticfiles/#staticfiles-finders
 STATICFILES_FINDERS = (
-    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
     'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 )
 ########## END STATIC FILE CONFIGURATION
 
@@ -211,6 +211,8 @@ ROOT_URLCONF = '%s.urls' % SITE_NAME
 
 ########## APP CONFIGURATION
 DJANGO_APPS = (
+    #'grappelli.dashboard',
+    'grappelli',
     # Default Django apps:
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -221,7 +223,6 @@ DJANGO_APPS = (
     'django.contrib.formtools',
     # Useful template tags:
     # 'django.contrib.humanize',
-    #'grappelli',
     # Admin panel and documentation:
     'django.contrib.admin',
     'django.contrib.admindocs',
@@ -263,7 +264,7 @@ LOCAL_APPS = (
     'users',
     #'practice_management',
     'reminders',
-    'dashboard',
+    'user_dashboard',
     'reporting',
     'portal',
     'data',
@@ -303,7 +304,8 @@ EMAIL_HOST_PASSWORD='13regiportal!'
 DEFAULT_FROM_EMAIL= "beta.regiportal@gmail.com"
 ##########################################3
 ######### Grapelli CONFIGURATION#####
-GRAPPELLI_ADMIN_TITLE = 'RegiPortal Admin'
+GRAPPELLI_ADMIN_TITLE = 'Django Open Med Admin'
+#GRAPPELLI_INDEX_DASHBOARD = 'forms_builder.dashboard.CustomIndexDashboard'
 GRAPPELLI_SWITCH_USER = True
 GRAPPELLI_AUTOCOMPLETE_LIMIT = 5
 
@@ -342,5 +344,5 @@ LOGGING = {
 
 ########## WSGI CONFIGURATION
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#wsgi-application
-WSGI_APPLICATION = 'django_open_med.wsgi.application'
+WSGI_APPLICATION = 'django_open_med_site.wsgi.application'
 ########## END WSGI CONFIGURATION

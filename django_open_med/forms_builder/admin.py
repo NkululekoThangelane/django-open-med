@@ -15,11 +15,10 @@ from django.template import RequestContext
 from django.utils.translation import ungettext, ugettext_lazy as _
 
 from forms_builder.forms import EntriesForm
-from forms_builder.models import Form, Field, FormEntry, FieldEntry
+from forms_builder.models import Form, Field, FormEntry, FieldEntry, FormMatch
 from forms_builder.settings import CSV_DELIMITER, UPLOAD_ROOT
 from forms_builder.settings import USE_SITES, EDITABLE_SLUGS
 from forms_builder.utils import now, slugify
-from patient_portal.admin import form_creator_admin_site 
 try:
     import xlwt
     XLWT_INSTALLED = True
@@ -56,13 +55,13 @@ class FormAdmin(admin.ModelAdmin):
     fieldentry_model = FieldEntry
 
     inlines = (FieldAdmin,)
-    list_display = ("title", "status", 
+    list_display = ("title", "status",
                     "total_entries", "created_by", "admin_links")
     list_display_links = ("title",)
     list_editable = ("status",)
     list_filter = ("status",)
     filter_horizontal = form_admin_filter_horizontal
-    search_fields = ("title", "intro", "response", 
+    search_fields = ("title", "intro", "response",
                      )
     radio_fields = {"status": admin.HORIZONTAL}
     fieldsets = form_admin_fieldsets
@@ -72,7 +71,7 @@ class FormAdmin(admin.ModelAdmin):
 
     #def validate(self):
     #    pass
-    
+
     def save_model(self, request, obj, form, change):
         if getattr(obj, 'created_by', None) is None:
             groups = request.user.groups.all()
@@ -209,5 +208,8 @@ class FormAdmin(admin.ModelAdmin):
 
 class FormEntryAdmin(admin.ModelAdmin):
     pass
-form_creator_admin_site.register(Form, FormAdmin)
-form_creator_admin_site.register(FormEntry, FormEntryAdmin)
+class FormMatchAdmin(admin.ModelAdmin):
+    pass
+admin.site.register(Form, FormAdmin)
+admin.site.register(FormEntry, FormEntryAdmin)
+admin.site.register(FormMatch, FormMatchAdmin)

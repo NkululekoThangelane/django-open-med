@@ -251,3 +251,8 @@ class Field(AbstractField):
         fields_after = self.form.fields.filter(order__gte=self.order)
         fields_after.update(order=models.F("order") - 1)
         super(Field, self).delete(*args, **kwargs)
+
+class FormMatch(models.Model):
+    receiver = models.ForeignKey(django_settings.AUTH_USER_MODEL)
+    form = models.ForeignKey('Form')
+    complete = models.BooleanField()

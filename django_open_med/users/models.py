@@ -11,12 +11,18 @@ GENDER_CHOICES =(
 )
 # Create your models here.
 class CustomUser(AbstractUser):
-    slug = AutoSlugField(populate_from='user', unique_with='user')
-    org = models.OneToOneField('organizations.Organization')
+    slug = AutoSlugField(populate_from='username', unique_with='username')
+    org = models.OneToOneField('organizations.Organization', null=True)
+
+    def __unicode__(self):
+        return '%s' % self.first_name + ' ' + self.last_name
     class Meta:
         pass
 class Patient(CustomUser):
     doctor = models.ForeignKey('Physician')
+
+    class Meta:
+        verbose_name_plural = "Patients"
 
 class ClientManager(models.Manager):
     pass
@@ -75,8 +81,14 @@ class Employee(CustomUser):
 
 class Physician(CustomUser):
     type = models.CharField(max_length=50)
+
+    class Meta:
+        verbose_name_plural = 'Physicians'
 class Therapist(CustomUser):
     type = models.CharField(max_length=50)
+
+    class Meta:
+        verbose_name_plural = 'Therapists'
 class Address(models.Model):
     id = models.AutoField(primary_key=True)
     slug = AutoSlugField(populate_from='id')
