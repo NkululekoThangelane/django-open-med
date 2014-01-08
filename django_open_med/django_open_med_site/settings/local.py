@@ -18,7 +18,6 @@ SITE_NAME = basename(DJANGO_ROOT)
 path.append(DJANGO_ROOT)
 ########## END PATH CONFIGURATION
 AUTH_USER_MODEL='users.CustomUser'
-
 ########## DEBUG CONFIGURATION
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#debug
 DEBUG = True
@@ -65,6 +64,7 @@ DATABASES = {
 
 ########## GENERAL CONFIGURATION
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#time-zone
+USE_TZ = True
 TIME_ZONE = 'America/New_York'
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#language-code
@@ -213,6 +213,7 @@ ROOT_URLCONF = '%s.urls' % SITE_NAME
 DJANGO_APPS = (
     #'grappelli.dashboard',
     'grappelli',
+    'filebrowser',
     # Default Django apps:
     'django.contrib.auth',
     'django.contrib.contenttypes',
