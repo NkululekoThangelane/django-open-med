@@ -30,3 +30,5 @@ class ClientCreateForm(forms.ModelForm):
         pass
 class GuardianCreateForm(forms.ModelForm):
     pass
+class NewUserWizard(FormWizard):
+    pass
