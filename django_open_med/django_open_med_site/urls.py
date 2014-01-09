@@ -2,7 +2,7 @@ from django.conf.urls import patterns, include, url
 from django.conf import settings
 from django.contrib import admin, auth
 from django.views.generic import *
-
+from filebrowser.sites import site
 admin.autodiscover()
 
 urlpatterns = patterns('',
@@ -13,7 +13,7 @@ urlpatterns = patterns('',
     url(r'^admin/django-ses/', include('django_ses.urls')),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     #url(r'^form-creator/', include(form_creator_admin_site.urls)),
-    url(r'^forms/', include(include('forms_builder.urls'))),
+    url(r'^forms/', include(include('form_designer.urls'))),
     url(r'^', TemplateView.as_view(template_name="index.html")),
     url(r'^accounts/', include('allauth.urls')),
 )

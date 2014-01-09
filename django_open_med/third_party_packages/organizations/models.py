@@ -9,7 +9,7 @@ from django_extensions.db.models import TimeStampedModel
 from third_party_packages.organizations.managers import OrgManager, ActiveOrgManager
 
 
-USER_MODEL = getattr(settings, 'AUTH_USER_MODEL', 'auth.User')
+USER_MODEL = getattr(settings, 'AUTH_USER_MODEL')
 
 
 def get_user_model():

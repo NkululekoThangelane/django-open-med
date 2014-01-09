@@ -16,8 +16,8 @@ class CustomUser(AbstractUser):
 
     def __unicode__(self):
         return '%s' % self.first_name + ' ' + self.last_name
-    class Meta:
-        pass
+    class Meta(AbstractUser.Meta):
+        db_table= "auth_user"
 class Patient(CustomUser):
     doctor = models.ForeignKey('Physician')
 
