@@ -1,0 +1,1 @@
+web: django_open_med_site.settings.uwsgi
