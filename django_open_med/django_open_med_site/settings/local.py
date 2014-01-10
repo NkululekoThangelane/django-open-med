@@ -133,12 +133,14 @@ FIXTURE_DIRS = (
     normpath(join(SITE_ROOT, 'fixtures')),
 )
 ########## END FIXTURE CONFIGURATION
-LOGIN_URL = '/login'
+LOGIN_URL = '/accounts/login/'
+LOGIN_REDIRECT_URL = '/login/success'
 ######### ALL AUTH CONFIGURATION ###########
 AUTHENTICATION_BACKENDS =(
     'django.contrib.auth.backends.ModelBackend',
     'allauth.account.auth_backends.AuthenticationBackend',
 )
+ACCOUNT_AUTHENTICATION_METHOD="email"
 ACCOUNT_EMAIL_CONFIRMATION_ANONYMOUS_REDIRECT_URL=LOGIN_URL
 ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS=3
 ACCOUNT_EMAIL_REQUIRED=True
