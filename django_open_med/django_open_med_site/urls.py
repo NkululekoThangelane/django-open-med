@@ -14,7 +14,7 @@ urlpatterns = patterns('',
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     #url(r'^form-creator/', include(form_creator_admin_site.urls)),
     url(r'^forms/', include(include('form_designer.urls'))),
-    url(r'^', TemplateView.as_view(template_name="index.html")),
+    url(r'^/', TemplateView.as_view(template_name="index.html")),
     url(r'^accounts/', include('allauth.urls')),
 )
 
@@ -25,6 +25,7 @@ urlpatterns += patterns('dashboard.views',
 )
 
 urlpatterns += patterns('portal.views',
+    url(r'^portal/login/$', TemplateView.as_view(template_name="login.html")),
 )
 
 urlpatterns += patterns('django.contrib.auth.views',

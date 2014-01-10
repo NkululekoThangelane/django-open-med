@@ -1,0 +1,40 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="Login Portal">
+	<meta name="author" content="Ben Waters">
+	<link rel="shortcut icon" href="{% static 'ico/favicon.png' %}">
+	<title>Login Portal</title>
+	<!-- Bootstrap core CSS -->
+
+	<!-- Bootstrap core CSS -->
+	<link href="{% static 'css/bootstrap.css' %}" rel="stylesheet">
+
+	<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!--[if lt IE 9]>
+	<script src="{% static 'js/html5shiv.js' %}"></script>
+	<script src="{% static 'js/respond.min.js' %}"></script>
+	<![endif]-->
+
+	<!-- Load Flat UI -->
+	<link href="{% static 'css/flat-ui.css' %}" rel="stylesheet">
+    </head>
+
+	<body>
+
+		<div id="wrapper">
+		{% include "navbar.html" %}
+		{% block content %}
+
+		{% endblock %}
+		</div>
+
+
+		    <!-- JavaScript -->
+		<script src="{% static 'staff/js/jquery-1.10.2.js' %}"></script>
+		<script src="{% static 'staff/js/bootstrap.js' %}"></script>
+	</body>
+</html>
