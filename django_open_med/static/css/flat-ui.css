@@ -3399,7 +3399,7 @@ body.vjs-full-window {
   position: relative;
 }
 .login-screen {
-  background-color: #95A5A6;
+  background-color: #1abc9c;
   min-height: 473px;
   padding: 123px 199px 33px 306px;
 }
@@ -3428,7 +3428,7 @@ body.vjs-full-window {
   font-weight: 700;
 }
 .login-form {
-  background-color: #34495E;
+  background-color: #edeff1;
   padding: 24px 23px 20px;
   position: relative;
   border-radius: 6px;
@@ -3455,10 +3455,10 @@ body.vjs-full-window {
   text-indent: 3px;
 }
 .login-form .login-field:focus {
-  border-color: #7F8C8D;
+  border-color: #1abc9c;
 }
 .login-form .login-field:focus + .login-field-icon {
-  color: #7F8C8D;
+  color: #1abc9c;
 }
 .login-form .login-field-icon {
   color: #bfc9ca;

@@ -1,21 +1,18 @@
 from django.contrib import admin
-from django.contrib.auth.admin import UserAdmin
 from users.models import *
 
 # Register your models here.
-class CustomUserAdmin(UserAdmin):
+class PatientAdmin(admin.ModelAdmin):
     pass
-class PatientAdmin(UserAdmin):
+class ClientAdmin(admin.ModelAdmin):
     pass
-class ClientAdmin(UserAdmin):
+class GuardianAdmin(admin.ModelAdmin):
     pass
-class GuardianAdmin(UserAdmin):
+class EmployeeAdmin(admin.ModelAdmin):
     pass
-class EmployeeAdmin(UserAdmin):
+class PhysicianAdmin(admin.ModelAdmin):
     pass
-class PhysicianAdmin(UserAdmin):
-    pass
-class TherapistAdmin(UserAdmin):
+class TherapistAdmin(admin.ModelAdmin):
     pass
 class AddressAdmin(admin.ModelAdmin):
     pass
@@ -26,4 +23,3 @@ admin.site.register(Employee, EmployeeAdmin)
 admin.site.register(Physician, PhysicianAdmin)
 admin.site.register(Therapist, TherapistAdmin)
 admin.site.register(Address, AddressAdmin)
-admin.site.register(CustomUser, CustomUserAdmin)

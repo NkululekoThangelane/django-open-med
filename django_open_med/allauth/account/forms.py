@@ -22,7 +22,6 @@ from . import app_settings
 from .adapter import get_adapter
 
 User = get_user_model()
-from users.models import CustomUser
 
 
 class PasswordField(forms.CharField):
@@ -97,16 +96,12 @@ class LoginForm(forms.Form):
                 credentials["email"] = login
             credentials["username"] = login
         credentials["password"] = self.cleaned_data["password"]
-        credentials["username"] = CustomUser.objects.get(email=credentials["email"])
-        print "CREDENTIALS " + str(credentials)
         return credentials
 
     def clean(self):
-        print "IN CLEAN"
         if self._errors:
             return
         user = authenticate(**self.user_credentials())
-        print user
         if user:
             if user.is_active:
                 self.user = user

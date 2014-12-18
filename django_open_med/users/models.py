@@ -1,5 +1,5 @@
 from django.utils.translation import ugettext_lazy as _
-from django.contrib.auth.models import AbstractUser, UserManager
+from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.conf import settings
 from encrypted_fields import EncryptedCharField
@@ -12,8 +12,7 @@ GENDER_CHOICES =(
 # Create your models here.
 class CustomUser(AbstractUser):
     slug = AutoSlugField(populate_from='username', unique_with='username')
-    org = models.ForeignKey('organizations.Organization', null=True)
-    objects = UserManager()
+    org = models.OneToOneField('organizations.Organization', null=True)
 
     def __unicode__(self):
         return '%s' % self.first_name + ' ' + self.last_name

@@ -25,7 +25,7 @@ urlpatterns += patterns('dashboard.views',
 )
 
 urlpatterns += patterns('portal.views',
-    url(r'^login/success/', 'login_success'),
+    url(r'^portal/login/$', TemplateView.as_view(template_name="login.html")),
 )
 
 urlpatterns += patterns('django.contrib.auth.views',
